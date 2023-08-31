@@ -1,0 +1,42 @@
+Requisitos Funcionais - Ferramenta de Controle das Aplicações
+-------------------------------------------------------------
+
+1. Cadastrar as contas para aplicação.
+
+    Banco
+    Agência
+    No. da conta
+
+2. Cadastrar as informações pessoais dos investidores, como:
+
+    Nome;
+    Renda;
+    Aporte Mensal;
+    Conta Aplicação;
+
+3. Controlar as carteiras de investimentos dos investidores:
+
+    2.1. Registrar as informações de cada carteira, como:
+
+        Investidor Responsável;
+        Cadastrar classes de ativos (Reserva de Oportunidade/Emergencial, Ações, FIIs, Investimentos de Risco).
+        Configurar percentuais para cada classe de ativos
+        Cadastrar os ativos dentro de cada classe.
+            Consultar o percentual de concentração do ativo dentro da carteira e dentro da classe.
+
+    2.2. Histórico de Crescimento da Carteira.
+
+        Posição financeira dos ativos mensalmente;
+        Evolução com valorização/prejuízo mensal da carteira;
+
+    2.3. Controlar os Aporte, permitindo balancear a carteira de acordo com os aportes mensais.
+
+        Informanado o valor do aporte, o sistema calculará e apresentará o valor para aplicação para cada classe de ativos de acordo com o percentual de composição.
+
+3. Controlar a compra e venda dos ativos.
+
+    3.1. Registrar a compra e venda dos ativos.
+
+    3.2. Controlar o preço médio dos ativos.
+
+    3.3. Ajudar na venda dos ativos de acordo com o preço médio vs preço de mercado, utilizando percentuais de queda e valorização.
