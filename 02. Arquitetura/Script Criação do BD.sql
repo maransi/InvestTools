@@ -39,11 +39,11 @@ CREATE TABLE contaAplicacao(    Id                  INT
                                 banco               VARCHAR(50)
                                                     NOT NULL
                                                     COMMENT 'Nome do banco',
-                                nrAgencia           VARCHAR(4)
+                                agencia           VARCHAR(4)
                                                     NOT NULL
                                                     DEFAULT '0001'
                                                     COMMENT 'No. da Agência',
-                                nrConta             VARCHAR(10)
+                                conta             VARCHAR(10)
                                                     NOT NULL
                                                     COMMENT 'No. da conta da aplicação',
                                 IdInvestidor        INT
@@ -112,7 +112,7 @@ CREATE INDEX idxCartInvest_IdInvestidor
 
 
 
-CREATE TABLE carteiraClasseAtivo(   Id              INT
+CREATE TABLE carteiraInvestimentoComposicao(   Id              INT
                                                     UNSIGNED
                                                     NOT NULL
                                                     AUTO_INCREMENT
@@ -143,7 +143,7 @@ ALTER TABLE carteiraClasseAtivo
 
 
 
-CREATE TABLE carteiraComposicaoAtivo(   Id              INT
+CREATE TABLE carteiraAlocacaoAtivo(   Id              INT
                                                     UNSIGNED
                                                     NOT NULL
                                                     AUTO_INCREMENT,
@@ -170,3 +170,20 @@ ALTER TABLE carteiraComposicaoAtivo
 CREATE INDEX idxCartCompAtivo_IdCartClasseAtivo
     ON carteiraComposicaoAtivo( IdCarteiraClasseAtivo );
 
+
+
+public class Investidor: BaseEntity
+{
+    public string? CPF { get; set; }
+
+    public string? Nome { get; set; }
+
+    public decimal Renda { get; set; }
+
+    public decimal AporteMensal{ get; set; }
+
+
+
+
+
+}
