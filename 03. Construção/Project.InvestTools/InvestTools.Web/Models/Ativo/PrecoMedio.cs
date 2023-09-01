@@ -5,8 +5,10 @@ namespace investTools.Web.Models.Ativo;
 
 public class PrecoMedio : BaseEntity
 {
+    public int Id { get; set; }
+
     public Investidor Investidor { get; set; } = default!;
-    
+
     public Ativo Ativo { get; set; } = default!;
 
     public decimal Preco { get; set; }

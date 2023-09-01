@@ -172,18 +172,3 @@ CREATE INDEX idxCartCompAtivo_IdCartClasseAtivo
 
 
 
-public class Investidor: BaseEntity
-{
-    public string? CPF { get; set; }
-
-    public string? Nome { get; set; }
-
-    public decimal Renda { get; set; }
-
-    public decimal AporteMensal{ get; set; }
-
-
-
-
-
-}

@@ -1,0 +1,12 @@
+/home/marco/workspace-dotnet/InvestTools/03. Construção/Project.InvestTools/InvestTools.Service/bin/Debug/net6.0/investTools.Service.deps.json
+/home/marco/workspace-dotnet/InvestTools/03. Construção/Project.InvestTools/InvestTools.Service/bin/Debug/net6.0/investTools.Service.dll
+/home/marco/workspace-dotnet/InvestTools/03. Construção/Project.InvestTools/InvestTools.Service/bin/Debug/net6.0/investTools.Service.pdb
+/home/marco/workspace-dotnet/InvestTools/03. Construção/Project.InvestTools/InvestTools.Service/obj/Debug/net6.0/investTools.Service.csproj.AssemblyReference.cache
+/home/marco/workspace-dotnet/InvestTools/03. Construção/Project.InvestTools/InvestTools.Service/obj/Debug/net6.0/investTools.Service.GeneratedMSBuildEditorConfig.editorconfig
+/home/marco/workspace-dotnet/InvestTools/03. Construção/Project.InvestTools/InvestTools.Service/obj/Debug/net6.0/investTools.Service.AssemblyInfoInputs.cache
+/home/marco/workspace-dotnet/InvestTools/03. Construção/Project.InvestTools/InvestTools.Service/obj/Debug/net6.0/investTools.Service.AssemblyInfo.cs
+/home/marco/workspace-dotnet/InvestTools/03. Construção/Project.InvestTools/InvestTools.Service/obj/Debug/net6.0/investTools.Service.csproj.CoreCompileInputs.cache
+/home/marco/workspace-dotnet/InvestTools/03. Construção/Project.InvestTools/InvestTools.Service/obj/Debug/net6.0/investTools.Service.dll
+/home/marco/workspace-dotnet/InvestTools/03. Construção/Project.InvestTools/InvestTools.Service/obj/Debug/net6.0/refint/investTools.Service.dll
+/home/marco/workspace-dotnet/InvestTools/03. Construção/Project.InvestTools/InvestTools.Service/obj/Debug/net6.0/investTools.Service.pdb
+/home/marco/workspace-dotnet/InvestTools/03. Construção/Project.InvestTools/InvestTools.Service/obj/Debug/net6.0/ref/investTools.Service.dll

@@ -4,6 +4,8 @@ namespace investTools.Web.Models.Ativo;
 
 public class CarteiraAlocacaoAtivo: BaseEntity
 {
+    public int Id { get; set; }
+
     public CarteiraInvestimentoComposicao CarteiraInvestimentoComposicao { get; set; } = default!;
 
     public string? MesAno { get; set; }

@@ -1,8 +1,12 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using investTools.Web.Data;
+using investTools.Web.Models.Pessoa;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddScoped<IInvestidorRepository, InvestidorRepository>();      
+builder.Services.AddScoped<IContaAplicacaoRepository, ContaAplicacaoRepository>();                
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
