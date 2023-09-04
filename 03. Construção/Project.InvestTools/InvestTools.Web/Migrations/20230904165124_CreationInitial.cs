@@ -58,8 +58,8 @@ namespace investTools.Web.Migrations
                     nome = table.Column<string>(type: "VARCHAR(50)", maxLength: 50, nullable: false),
                     renda = table.Column<decimal>(type: "DECIMAL(15,2)", precision: 15, scale: 2, nullable: true),
                     aporteMensal = table.Column<decimal>(type: "DECIMAL(15,2)", precision: 15, scale: 2, nullable: false),
-                    CreateAt = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    UpdateAt = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    dataInclusao = table.Column<DateTime>(type: "DATETIME", nullable: false),
+                    dataAlteracao = table.Column<DateTime>(type: "DATETIME", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -184,8 +184,8 @@ namespace investTools.Web.Migrations
                     conta = table.Column<string>(type: "VARCHAR(4)", maxLength: 10, nullable: false),
                     digitoConta = table.Column<string>(type: "CHAR(1)", nullable: false),
                     InvestidorId = table.Column<int>(type: "INTEGER", nullable: false),
-                    CreateAt = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    UpdateAt = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    dataInclusao = table.Column<DateTime>(type: "DATETIME", nullable: false),
+                    dataAlteracao = table.Column<DateTime>(type: "DATETIME", nullable: true)
                 },
                 constraints: table =>
                 {

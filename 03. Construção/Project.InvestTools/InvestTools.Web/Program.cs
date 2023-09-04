@@ -6,7 +6,7 @@ using investTools.Web.Models.Pessoa;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IInvestidorRepository, InvestidorRepository>();      
-builder.Services.AddScoped<IContaAplicacaoRepository, ContaAplicacaoRepository>();                
+// builder.Services.AddScoped<IContaAplicacaoRepository, ContaAplicacaoRepository>();                
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -16,7 +16,11 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+                .ConfigureApiBehaviorOptions(options =>        
+                                            {                                                       
+                                                options.SuppressModelStateInvalidFilter = true;     
+                                            }); 
 
 var app = builder.Build();
 

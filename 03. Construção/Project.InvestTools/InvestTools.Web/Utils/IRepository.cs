@@ -1,11 +1,14 @@
+using investTools.Web.Data;
+using Microsoft.AspNetCore.Mvc;
+
 namespace investTools.Web.Utils;
 
-public interface IRepository<T, K> where T : BaseEntity
+public interface IRepository<T, K, C> where T : BaseEntity
 {
-    Task<T> InsertAsync(T item);
+    Task<int> InsertAsync(C item);
     Task<T> UpdateAsync(T item);
     Task<bool> DeleteAsync(K id);
     Task<T> GetByIdAsync(K id);
-    Task<IEnumerable<T>> GetAllAsync();
+    Task<List<T>> GetAllAsync();
     Task<bool> ExistAsync(K id);
 }

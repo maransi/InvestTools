@@ -7,7 +7,7 @@ namespace investTools.Web.Models.Pessoa;
 
 [Table("Investidor")]
 [Index( nameof(CPF),  IsUnique=true )]
-public class Investidor: BaseEntity
+public class Investidor  : BaseEntity
 {
     [Key]
     [DatabaseGenerated( DatabaseGeneratedOption.Identity )]

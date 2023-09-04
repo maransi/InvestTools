@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace investTools.Web.Utils;
@@ -5,17 +6,15 @@ namespace investTools.Web.Utils;
 public abstract class BaseEntity
 {
 
-    private DateTime? _createAt;
+    [Column("dataInclusao", TypeName = "DATETIME")]
+    // [DefaultValue("current_timestamp")]
+    // [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+    public DateTime? DataInclusao { get; set; }
+
 
     [Column("dataAlteracao", TypeName = "DATETIME")]
-    public DateTime? UpdateAt { get; set; }
+    public DateTime? DataAlteracao { get; set; }
 
-    [Column("dataInclusao", TypeName = "DATETIME")]
-    public DateTime? CreateAt
-    {
-        get { return _createAt; }
-        set { _createAt = (value == null ? DateTime.UtcNow : value); }
-    }
 
 
 }

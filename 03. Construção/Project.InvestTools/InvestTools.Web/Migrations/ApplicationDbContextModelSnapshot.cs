@@ -42,7 +42,12 @@ namespace investTools.Web.Migrations
                         .HasColumnType("VARCHAR(4)")
                         .HasColumnName("conta");
 
-                    b.Property<DateTime?>("CreateAt")
+                    b.Property<DateTime?>("DataAlteracao")
+                        .HasColumnType("DATETIME")
+                        .HasColumnName("dataAlteracao");
+
+                    b.Property<DateTime>("DataInclusao")
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("DATETIME")
                         .HasColumnName("dataInclusao");
 
@@ -55,10 +60,6 @@ namespace investTools.Web.Migrations
                         .HasMaxLength(4)
                         .HasColumnType("VARCHAR(4)")
                         .HasColumnName("nrBanco");
-
-                    b.Property<DateTime?>("UpdateAt")
-                        .HasColumnType("DATETIME")
-                        .HasColumnName("dataAlteracao");
 
                     b.Property<string>("digitoConta")
                         .IsRequired()
@@ -90,7 +91,12 @@ namespace investTools.Web.Migrations
                         .HasColumnType("VARCHAR(11)")
                         .HasColumnName("cpf");
 
-                    b.Property<DateTime?>("CreateAt")
+                    b.Property<DateTime?>("DataAlteracao")
+                        .HasColumnType("DATETIME")
+                        .HasColumnName("dataAlteracao");
+
+                    b.Property<DateTime>("DataInclusao")
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("DATETIME")
                         .HasColumnName("dataInclusao");
 
@@ -104,10 +110,6 @@ namespace investTools.Web.Migrations
                         .HasPrecision(15, 2)
                         .HasColumnType("DECIMAL(15,2)")
                         .HasColumnName("renda");
-
-                    b.Property<DateTime?>("UpdateAt")
-                        .HasColumnType("DATETIME")
-                        .HasColumnName("dataAlteracao");
 
                     b.HasKey("Id");
 
