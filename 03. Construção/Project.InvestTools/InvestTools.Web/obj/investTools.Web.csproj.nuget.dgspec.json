@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/marco/workspace-dotnet/InvestTools/03. Construção/Project.InvestTools/InvestTools.Web/investTools.Web.csproj": {}
+    "/home/marco/workspace/dotnet/InvestTools/03. Construção/Project.InvestTools/InvestTools.Web/investTools.Web.csproj": {}
   },
   "projects": {
-    "/home/marco/workspace-dotnet/InvestTools/03. Construção/Project.InvestTools/InvestTools.Web/investTools.Web.csproj": {
+    "/home/marco/workspace/dotnet/InvestTools/03. Construção/Project.InvestTools/InvestTools.Web/investTools.Web.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/marco/workspace-dotnet/InvestTools/03. Construção/Project.InvestTools/InvestTools.Web/investTools.Web.csproj",
+        "projectUniqueName": "/home/marco/workspace/dotnet/InvestTools/03. Construção/Project.InvestTools/InvestTools.Web/investTools.Web.csproj",
         "projectName": "investTools.Web",
-        "projectPath": "/home/marco/workspace-dotnet/InvestTools/03. Construção/Project.InvestTools/InvestTools.Web/investTools.Web.csproj",
+        "projectPath": "/home/marco/workspace/dotnet/InvestTools/03. Construção/Project.InvestTools/InvestTools.Web/investTools.Web.csproj",
         "packagesPath": "/home/marco/.nuget/packages/",
-        "outputPath": "/home/marco/workspace-dotnet/InvestTools/03. Construção/Project.InvestTools/InvestTools.Web/obj/",
+        "outputPath": "/home/marco/workspace/dotnet/InvestTools/03. Construção/Project.InvestTools/InvestTools.Web/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/marco/.nuget/NuGet/NuGet.Config"
@@ -32,6 +32,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "false",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -40,35 +45,35 @@
           "dependencies": {
             "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[6.0.8, )"
+              "version": "[6.0.36, )"
             },
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[6.0.8, )"
+              "version": "[6.0.36, )"
             },
             "Microsoft.AspNetCore.Identity.UI": {
               "target": "Package",
-              "version": "[6.0.8, )"
+              "version": "[6.0.36, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[6.0.12, )"
+              "version": "[6.0.36, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[6.0.12, )"
+              "version": "[6.0.36, )"
             },
             "Microsoft.EntityFrameworkCore.Sqlite": {
               "target": "Package",
-              "version": "[6.0.8, )"
+              "version": "[6.0.36, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[6.0.12, )"
+              "version": "[6.0.36, )"
             }
           },
           "imports": [
@@ -90,7 +95,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/home/marco/.dotnet/sdk/6.0.400/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/home/marco/.dotnet/sdk/8.0.411/RuntimeIdentifierGraph.json"
         }
       }
     }
