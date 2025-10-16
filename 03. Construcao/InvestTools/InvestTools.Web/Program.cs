@@ -1,4 +1,14 @@
+using investTools.Web.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+var connectionString = builder.Configuration.GetConnectionString("default");  // Linha inserida
+// var connectionString = "server=localhost;port=3306;database=investTools;uid=root;pwd=root;Persist Security Info=false;Connect Timeout=300;SSL Mode=None;AllowPublicKeyRetrieval=True;";
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>                          // Linha inserida
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
