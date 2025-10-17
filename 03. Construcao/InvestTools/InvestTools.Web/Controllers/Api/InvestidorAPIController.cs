@@ -22,9 +22,13 @@ public class InvestidorAPIController : ControllerBase
     {
         try
         {
-            var investidores = _investidorRepository.GetAllAsync();
+            var investidores = await _investidorRepository.GetAllAsync();
 
-            return Ok(new ResultViewModel<Task<List<Investidor>>>(investidores));
+            // return Ok(new ResultViewModel<Task<List<Investidor>>>(investidores));
+            return Ok(new ResultViewModel<List<Investidor>>(investidores));
+
+            // return Ok(new ResultViewModel<<List<Investidor>>(investidores));
+            // return Ok(investidores );
         }
         catch (Exception ex)
         {
