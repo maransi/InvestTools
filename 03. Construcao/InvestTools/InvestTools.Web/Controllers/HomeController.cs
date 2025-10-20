@@ -15,17 +15,81 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        return View();
+        return RedirectToAction("Dashboard");       // LInha alterada
     }
 
-    public IActionResult Privacy()
+    public IActionResult Dashboard()        // Método inserido
     {
         return View();
     }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
+    public IActionResult Buttons()          // Método inserido
     {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        return View();
     }
+
+    public IActionResult Cards()            // Método inserido
+    {
+        return View();
+    }
+
+    public IActionResult Colors()           // Método inserido
+    {
+        return View();
+    }
+
+    public IActionResult Borders()          // Método inserido
+    {
+        return View();
+    }
+
+    public IActionResult Animations()       // Método inserido
+    {
+        return View();
+    }
+
+    public IActionResult Others()           // Método inserido
+    {
+        return View();
+    }
+
+    public IActionResult Login()            // Método inserido
+    {
+        ViewBag.Title = "Login";
+
+        return View();
+    }
+
+    public IActionResult Register()         // Método inserido
+    {
+        ViewBag.Title = "Registro de Usuário";
+
+        return View();
+    }
+
+    public IActionResult ForgotPassword()   // Método inserido
+    {
+        return View();
+    }
+
+    public IActionResult Page404()          // Método inserido
+    {
+        return View();
+    }
+
+    public IActionResult BlankPage()        // Método inserido
+    {
+        return View();
+    }
+
+    public IActionResult Charts()           // Método inserido
+    {
+        return View();
+    }
+
+    public IActionResult Tables()           // Método inserido
+    {
+        return View();
+    }
+
 }
