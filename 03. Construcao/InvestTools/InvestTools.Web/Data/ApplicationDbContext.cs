@@ -1,10 +1,11 @@
 using investTools.Web.Models;
 using investTools.Web.Utils;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace investTools.Web.Data;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : IdentityDbContext
 {
 
     private readonly IConfiguration _config;
