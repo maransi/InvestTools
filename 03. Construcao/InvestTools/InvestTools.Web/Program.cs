@@ -1,60 +1,71 @@
 using investTools.Web.Data;
 using investTools.Web.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;                                        // Linha inserida
-using Microsoft.Extensions.DependencyInjection;                             // Linha inserida
+using Microsoft.AspNetCore.Identity;                                        
+using Microsoft.Extensions.DependencyInjection;                             
 using investTools.Web.Areas.Identity.Data;
 using investTools.Web.Services.Email;
+using investTools.Web.Services.CustomTokenProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var emailConfig = builder.Configuration             // Linha inserida
+var emailConfig = builder.Configuration             
         .GetSection("EmailConfiguration")
         .Get<EmailConfiguration>();
 
-builder.Services.AddSingleton(emailConfig);         // Linha inserida
+builder.Services.AddSingleton(emailConfig);         
 builder.Services.AddScoped<IEmailSender, EmailSender>();
-builder.Services.AddScoped<IInvestidorRepository, InvestidorRepository>();      // Linha inserida
+builder.Services.AddScoped<IInvestidorRepository, InvestidorRepository>();      
 
-var connectionString = builder.Configuration.GetConnectionString("default");  // Linha inserida
+var connectionString = builder.Configuration.GetConnectionString("default");  
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>                          // Linha inserida
+builder.Services.AddDbContext<ApplicationDbContext>(options =>                          
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 
-builder.Services.AddDefaultIdentity<IdentityUser>()                         // Linha inserida (Tem que ser colocada debaixo do "AddDbContext")
-    .AddEntityFrameworkStores<ApplicationDbContext>()                      // Linha inserida (Tem que ser colocada debaixo do "AddDbContext")
-    .AddDefaultTokenProviders();
+builder.Services.AddDefaultIdentity<IdentityUser>()                         
+    .AddEntityFrameworkStores<ApplicationDbContext>()                       
+    .AddDefaultTokenProviders()
+    .AddTokenProvider<EmailConfirmationTokenProvider<IdentityUser>>("emailconfirmation");
 
-builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>       // Linha inserida
-                        opt.TokenLifespan = TimeSpan.FromHours(2));         // Linha inserida
+builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>       
+                        opt.TokenLifespan = TimeSpan.FromHours(2));         
 
-builder.Services.ConfigureApplicationCookie(options =>                      // Linha inserida
-{                                                                           // Linha inserida
+builder.Services.Configure<EmailConfirmationTokenProviderOptions>(opt =>                    
+    opt.TokenLifespan = TimeSpan.FromDays(14));
+
+
+builder.Services.ConfigureApplicationCookie(options =>                      
+{                                                                           
     // Cookie settings
-    options.Cookie.HttpOnly = true;                                         // Linha inserida
-    options.Cookie.Name = "InvestTools.Cookies";                            // Linha inserida
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(5);                       // Linha inserida
+    options.Cookie.HttpOnly = true;                                         
+    options.Cookie.Name = "InvestTools.Cookies";                            
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(5);                       
 
-    options.LoginPath = "/Account/Login";                                   // Linha inserida
-    options.LogoutPath = "/Account/Logout";                                 // Linha inserida
-    options.AccessDeniedPath = "/Account/AccessDenied";                     // Linha inserida
-    options.SlidingExpiration = true;                                       // Linha inserida
+    options.LoginPath = "/Account/Login";                                   
+    options.LogoutPath = "/Account/Logout";                                 
+    options.AccessDeniedPath = "/Account/AccessDenied";                     
+    options.SlidingExpiration = true;                                       
 });
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
-    options.Password.RequiredLength = 6;                                    // Linha inserida
-    options.Password.RequiredUniqueChars = 3;                               // Linha inserida
-    options.Password.RequireNonAlphanumeric = false;                        // Linha inserida
-    options.Password.RequireDigit = false;                                  // Linha inserida
-    options.Password.RequireUppercase = false;                              // Linha inserida
+    options.Password.RequiredLength = 6;                                    
+    options.Password.RequiredUniqueChars = 3;                               
+    options.Password.RequireNonAlphanumeric = false;                        
+    options.Password.RequireDigit = false;                                  
+    options.Password.RequireUppercase = false;                              
     options.SignIn.RequireConfirmedEmail = true;
+    options.Tokens.EmailConfirmationTokenProvider = "emailconfirmation"; 
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);   
+    options.Lockout.MaxFailedAccessAttempts = 3;                        
+    options.Lockout.AllowedForNewUsers = true;                          
+
 });
 
 
 // Add services to the container.
-builder.Services.AddControllersWithViews()                                      // Linha alterada
+builder.Services.AddControllersWithViews()                                      
                 .ConfigureApiBehaviorOptions(options =>
                                             {
                                                 options.SuppressModelStateInvalidFilter = true;
@@ -84,7 +95,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.MapRazorPages();                                                        // Linha inserida
+app.MapRazorPages();                                                        
 
 
 app.Run();

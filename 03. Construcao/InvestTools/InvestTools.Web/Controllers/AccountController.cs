@@ -101,17 +101,38 @@ public class AccountController : Controller
                 return View();
             }
 
-            var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+            var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, true);
 
-            if (result.Succeeded)
+
+            if (result.IsLockedOut)
+            {
+                var forgotPassLink = Url.Action(nameof(ForgotPassword), "Account", new { }, Request.Scheme);
+
+                var content = string.Format("Your account is locked out, to reset your password, please click this link: {0}", forgotPassLink);
+
+                var message = new Message(new string[] { model.Email }, "Locked out account information", content, null);
+
+                await emailSender.SendEmailAsync(message);
+
+                ModelState.AddModelError("", "The account is locked out");
+
+                return View();
+            }
+            else if (result.Succeeded)
             {
                 return RedirectToAction("index", "home");
             }
-
-            // ModelState.AddModelError(string.Empty, "Login Inválido");
+            else                                // Else inserido
+            {
+                ModelState.AddModelError("", "Invalid Login Attempt");
+                return View();
+            }
         }
-
-        return View(model);
+        else                                    
+        {
+            ModelState.AddModelError("", "Invalid Login Attempt");
+            return View();
+        }
     }
 
     [HttpPost]
@@ -175,6 +196,9 @@ public class AccountController : Controller
             RedirectToAction(nameof(ResetPasswordConfirmation));
 
         var resetPassResult = await userManager.ResetPasswordAsync(user, resetPasswordModel.Token, resetPasswordModel.Password);
+
+        var setLockoutEndDateTask = await userManager.SetLockoutEndDateAsync(user, null ); // DateTime.Now - TimeSpan.FromMinutes(1));
+
         if (!resetPassResult.Succeeded)
         {
             foreach (var error in resetPassResult.Errors)
