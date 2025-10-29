@@ -14,12 +14,20 @@ public class InvestidorRepository : IInvestidorRepository
         _context = context;
     }
 
-    public Task<bool> DeleteAsync(int id)
+    public async Task<bool> DeleteAsync(CreateInvestidorViewModel model)
     {
-        throw new NotImplementedException();
+        var investidor = await _context.Investidores
+                            .AsNoTracking()
+                            .FirstOrDefaultAsync(x => x.CPF == model.CPF);
+
+        _context.Investidores.Remove(investidor);
+
+        await _context.SaveChangesAsync();
+
+        return true;
     }
 
-    public Task<bool> ExistAsync(int id)
+    public async Task<bool> ExistAsync(CreateInvestidorViewModel model)
     {
         throw new NotImplementedException();
     }
@@ -33,9 +41,15 @@ public class InvestidorRepository : IInvestidorRepository
         return investidores;
     }
 
-    public Task<Investidor> GetByIdAsync(int id)
+    public async Task<Investidor> GetByIdAsync(CreateInvestidorViewModel model)
     {
-        throw new NotImplementedException();
+        var investidor = await _context.Investidores
+                                .AsNoTracking()
+                                .FirstOrDefaultAsync(i => i.CPF == model.CPF);
+        if (investidor == null)
+            throw new Exception("Investidor não encontrado");
+
+        return investidor;
     }
 
     public async Task<int> InsertAsync(CreateInvestidorViewModel model)
@@ -46,9 +60,11 @@ public class InvestidorRepository : IInvestidorRepository
         {
             CPF = model.CPF,
             Nome = model.Nome,
+            DataNascimento = model.DataNascimento,
             Renda = model.Renda,
             AporteMensal = model.AporteMensal,
-            DataInclusao = DateTime.Now
+            DataInclusao = DateTime.Now,
+            Email = model.Email
         };
 
         await _context.AddAsync(investidor);
@@ -63,9 +79,26 @@ public class InvestidorRepository : IInvestidorRepository
         // }
     }
 
-    public Task<Investidor> UpdateAsync(Investidor item)
+    public async Task<Investidor> UpdateAsync(CreateInvestidorViewModel item)
     {
-        throw new NotImplementedException();
+        var investidor = await _context.Investidores
+                                    .FirstOrDefaultAsync(i => i.CPF == item.CPF);
+
+        if (investidor == null)
+            throw new Exception("Investidor não encontrado");
+
+        investidor.Nome = item.Nome;
+        investidor.DataNascimento = item.DataNascimento;
+        investidor.Renda = item.Renda;
+        investidor.AporteMensal = item.AporteMensal;
+        investidor.Email = item.Email;
+        investidor.DataAlteracao = DateTime.Now;
+
+        _context.Investidores.Update(investidor);
+        await _context.SaveChangesAsync();
+
+        return investidor;
+
     }
 
 }

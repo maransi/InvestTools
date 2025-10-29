@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using investTools.Web.Data;
 
@@ -11,9 +12,11 @@ using investTools.Web.Data;
 namespace investTools.Web.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251025214221_updateTableInvestidor2")]
+    partial class updateTableInvestidor2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -231,7 +234,7 @@ namespace investTools.Web.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<decimal?>("AporteMensal")
+                    b.Property<decimal>("AporteMensal")
                         .HasColumnType("DECIMAL(13,2)")
                         .HasColumnName("aporteMensal");
 
@@ -264,7 +267,7 @@ namespace investTools.Web.Migrations
                         .HasColumnType("VARCHAR(50)")
                         .HasColumnName("nome");
 
-                    b.Property<decimal?>("Renda")
+                    b.Property<decimal>("Renda")
                         .HasColumnType("DECIMAL(13,2)")
                         .HasColumnName("renda");
 

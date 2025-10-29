@@ -12,6 +12,7 @@ public class InvestidorAPIController : ControllerBase
 {
     private readonly IInvestidorRepository _investidorRepository;
 
+    // Linha alterada
     public InvestidorAPIController(IInvestidorRepository investidorRepository)
     {
         _investidorRepository = investidorRepository;
@@ -24,11 +25,14 @@ public class InvestidorAPIController : ControllerBase
         {
             var investidores = await _investidorRepository.GetAllAsync();
 
-            // return Ok(new ResultViewModel<Task<List<Investidor>>>(investidores));
-            return Ok(new ResultViewModel<List<Investidor>>(investidores));
+            // Linha eliminada
+            // return Ok(new ResultViewModel<List<Investidor>>(investidores));
 
-            // return Ok(new ResultViewModel<<List<Investidor>>(investidores));
-            // return Ok(investidores );
+            // Linha inserida
+            return Ok(new
+            {
+                Data = investidores
+            });
         }
         catch (Exception ex)
         {
@@ -46,13 +50,15 @@ public class InvestidorAPIController : ControllerBase
         {
             var resultRet = await _investidorRepository.InsertAsync(model);
 
-            if (resultRet > 0)
+            var investidor = await _investidorRepository.GetByIdAsync(model);
+
+            if (investidor != null)
             {
-                return Created($"investidor/v1/cpf/{model.CPF}", new ResultViewModel<CreateInvestidorViewModel>(model));
+                return Created($"investidor/v1/cpf/{investidor.CPF}", new ResultViewModel<Investidor>(investidor));
             }
             else
             {
-                return StatusCode(500, new ResultViewModel<Investidor>($"Ocorreu o seguinte erro "));  // Linha alterada
+                return StatusCode(500, new ResultViewModel<Investidor>($"Ocorreu o seguinte erro "));
             }
 
         }
@@ -62,4 +68,50 @@ public class InvestidorAPIController : ControllerBase
 
         }
     }
+
+    [HttpPut("v1")]
+    public async Task<ActionResult<Investidor>> PutAsync([FromBody] CreateInvestidorViewModel model)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(new ResultViewModel<Investidor>(ModelState.GetErrors()));
+
+        try
+        {
+            var investidor = await _investidorRepository.GetByIdAsync(model);
+
+            if (investidor == null)
+                return NotFound(new ResultViewModel<Investidor>("Investidor não encontrado"));
+
+            var resultRet = await _investidorRepository.UpdateAsync(model);
+
+            investidor = await _investidorRepository.GetByIdAsync(model);
+
+            return Ok(new ResultViewModel<Investidor>(investidor));
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ResultViewModel<Investidor>($"Ocorreu o seguinte erro [ {ex.Message} ]"));  // Linha alterada
+        }
+    }
+
+    [HttpDelete("v1")]
+    public async Task<ActionResult> Delete([FromBody] CreateInvestidorViewModel model)
+    {
+        try
+        {
+            var investidor = await _investidorRepository.GetByIdAsync(model);
+
+            if (investidor == null)
+                return NotFound(new ResultViewModel<Investidor>("Investidor não encontrado"));
+
+            await _investidorRepository.DeleteAsync(model);
+
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ResultViewModel<Investidor>(ex.Message));
+        }
+    }
+
 }

@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using investTools.Web.Utils;
@@ -7,6 +8,7 @@ namespace investTools.Web.Models;
 
 [Table("Investidor")]
 [Index(nameof(CPF), IsUnique = true)]
+// [CheckConstraint("chkInvestidorDatNascPassado",  "dataNascimento < CURDATE()")]
 public class Investidor : AuditEntity
 {
     [Key]
@@ -25,11 +27,23 @@ public class Investidor : AuditEntity
     [Column("nome", TypeName = "VARCHAR(50)")]
     public string? Nome { get; set; }
 
-    [Precision(15, 2)]
-    [Column("renda", TypeName = "DECIMAL(15,2)")]
+    [Column("dataNascimento", TypeName = "DATE")]
+    public DateTime DataNascimento { get; set; }
+
+    [Range(1540, 1000000, ErrorMessage = "Renda deve ser maior que R$ 1.540,00")]
+    [DisplayFormat(DataFormatString = "{0:C}")]
+    [Column("renda", TypeName = "DECIMAL(13,2)")]
+    [DefaultValue(0)]
     public decimal? Renda { get; set; }
 
-    [Precision(15, 2)]
-    [Column("aporteMensal", TypeName = "DECIMAL(15,2)")]
-    public decimal AporteMensal { get; set; }
+    [Range(1540, 1000000, ErrorMessage = "Salário deve ser maior que R$ 1.540,00")]
+    [DisplayFormat(DataFormatString = "{0:C}")]
+    [Column("aporteMensal", TypeName = "DECIMAL(13,2)")]
+    [DefaultValue(0)]
+    public decimal? AporteMensal { get; set; }
+
+    [Required(ErrorMessage = "E-Mail é obrigatório")]
+    [EmailAddress(ErrorMessage = "Invalido endereço de E-Mail")]
+    [Column("email", TypeName = "VARCHAR(100)")]
+    public string? Email { get; set; }
 }

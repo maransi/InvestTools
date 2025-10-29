@@ -2,10 +2,11 @@ namespace investTools.Web.Utils;
 
 public interface IRepository<T, K, C> where T : AuditEntity
 {
-    Task<int> InsertAsync(C item);
-    Task<T> UpdateAsync(T item);
-    Task<bool> DeleteAsync(K id);
-    Task<T> GetByIdAsync(K id);
+    Task<int> InsertAsync(C viewModel);
+    Task<T> UpdateAsync(C viewModel);
+    Task<bool> DeleteAsync(C viewModel);
+    Task<T> GetByIdAsync(C viewModel);
     Task<List<T>> GetAllAsync();
-    Task<bool> ExistAsync(K id);
+    Task<bool> ExistAsync(C viewModel);
+
 }
