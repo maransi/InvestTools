@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using investTools.Web.Utils;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,7 +29,10 @@ public class Investidor : AuditEntity
     public string? Nome { get; set; }
 
     [Column("dataNascimento", TypeName = "DATE")]
-    public DateTime DataNascimento { get; set; }
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")] // Para views Razor
+    // [JsonConverter(typeof(JsonStringConverter))] // Para serialização JSON    
+    public DateTime? DataNascimento { get; set; }
 
     [Range(1540, 1000000, ErrorMessage = "Renda deve ser maior que R$ 1.540,00")]
     [DisplayFormat(DataFormatString = "{0:C}")]

@@ -1,0 +1,71 @@
+<!-- Modal for adding/editing customers -->
+<div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="formModalLabel">Detalhes</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="investidorForm">
+                    <input type="hidden" id="investidorId" name="investidorId">
+
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="cpf">CPF</label>
+                                <input type="text" class="form-control form-control-sm"
+                                    aria-label=".form-control-sm example" placeholder="123.456.789-00" id="cpf"
+                                    name="cpf" required>
+                            </div>
+                        </div>
+                        <div class="col-9">
+                            <div class="form-group">
+                                <label for="nome">Nome</label>
+                                <input type="text" class="form-control form-control-sm" id="nome" name="nome" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control form-control-sm" id="email" name="email"
+                                    aria-describedby="emailHelp" placeholder="Seu email" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2">
+                            <div class="form-group">
+                                <label for="dataNascimento">Data Nasc</label>
+                                <input type="date" class="form-control form-control-sm" id="dataNascimento"
+                                    name="dataNascimento" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="renda">Renda Mensal</label>
+                                <input type="text" class="form-control form-control-sm" name="renda" id="renda">
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="renda">Aporte Mensal</label>
+                                <input type="text" class="form-control form-control-sm" name="aporteMensal" id="aporteMensal">
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-primary" id="btnSave" data-action="save">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>

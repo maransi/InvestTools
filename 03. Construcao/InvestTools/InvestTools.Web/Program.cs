@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using investTools.Web.Areas.Identity.Data;
 using investTools.Web.Services.Email;
 using investTools.Web.Services.CustomTokenProviders;
+using investTools.Web.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,7 +58,7 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequireUppercase = false;                              
     options.SignIn.RequireConfirmedEmail = true;
     options.Tokens.EmailConfirmationTokenProvider = "emailconfirmation"; 
-    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);   
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);   
     options.Lockout.MaxFailedAccessAttempts = 3;                        
     options.Lockout.AllowedForNewUsers = true;                          
 
@@ -65,11 +66,17 @@ builder.Services.Configure<IdentityOptions>(options =>
 
 
 // Add services to the container.
-builder.Services.AddControllersWithViews()                                      
+builder.Services.AddControllersWithViews()
                 .ConfigureApiBehaviorOptions(options =>
                                             {
                                                 options.SuppressModelStateInvalidFilter = true;
                                             });
+                // .AddJsonOptions(options =>            
+                //                             {
+                //                                 options.JsonSerializerOptions.Converters.Add(new JsonStringConverter());
+                //                                 options.JsonSerializerOptions.PropertyNamingPolicy = null;
+                //                                 options.JsonSerializerOptions.WriteIndented = true;
+                //                             });
 
 var app = builder.Build();
 
