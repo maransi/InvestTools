@@ -33,8 +33,8 @@ $(document).ready(function () {
                 data: null,
                 width: "20%",
                 render: function (data, type, row) {
-                    return '<a href="#" data-id="' + row.codigo + '" class="editBtn"><img src="/img/Edit-Button.ico"  title="Abrir/Editar" alt="Editar"  width="20" height="20"></a>&nbsp&nbsp&nbsp' +
-                        '<a href="#" data-id="' + row.codigo + '" class="deleteBtn"><img src="/img/Delete-Button.png" title="Eliminar" alt="Excluir" width="20" height="20"></a>';
+                    return '<a href="#" data-id="' + row.codigo + '" class="editBtn"><img src="/img/Open-Button.png"  title="Abrir/Editar" alt="Editar"  width="24" height="24"></a>&nbsp&nbsp&nbsp' +
+                        '<a href="#" data-id="' + row.codigo + '" class="deleteBtn"><img src="/img/Delete-Button.png" title="Eliminar" alt="Excluir" width="24" height="24"></a>';
                     // '<button class="btn btn-outline-primary btn-sm editBtn" data-id="' + row.id + '">Edit</button>' +
                     // '<button class="btn btn-outline-danger btn-sm deleteBtn" data-id="' + row.id + '">Delete</button>' +                        
                 }
@@ -45,14 +45,6 @@ $(document).ready(function () {
     var placeHolderElement = $("#modalContainer");
 
     placeHolderElement.on('click', '[data-action="save"]', function (event) {
-/*        
-        if (!validaCPF($('#cpf').val())) {
-            alert('CPF inválido. Verifique o número digitado.');
-            $('#cpf').focus();
-
-            return;
-        }
-*/
         var url = '/investidorAPI/api/v1';
 
         var method = $('#investidorId').val().trim() === '' ? 'POST' : 'PUT';
@@ -73,21 +65,24 @@ $(document).ready(function () {
             data: JSON.stringify(sendInfo),
             contentType: "application/json; charset=utf-8",
             success: function () {
-                alert('Investidor incluido com sucesso!!!');
+                // alert('Investidor incluido com sucesso!!!');
+                $.notify('Investidor incluido com sucesso!!!', 'success');
                 $('#formModal').modal('hide');
                 $('#investidorTable').DataTable().ajax.reload();
             },
             error: function (request, status, error) {
-                alert(request.responseText);
+                // alert(request.responseText);
+                $.notify(request.responseText, 'error');
+
             }
         });
     });
-  
+
 
     // Adiciona novo cliente pelo click do botão
     $('#btnAdd').click(function () {
-        
-        $.get('/Investidor/GetModalPartial').done( function (data) {
+
+        $.get('/Investidor/GetModalPartial').done(function (data) {
             $('#modalContainer').html(data);
 
             document.getElementById('investidorForm').classList.remove("was-validated");
@@ -96,8 +91,14 @@ $(document).ready(function () {
             $('#formModalLabel').text('Inclusão');
             $('#btnSave').text('Salvar');
             $('#investidorId').val(''); // Clear the hidden ID field
+
+            $("#cpf").mask("000.000.000-00");
+            $('#aporteMensal').maskMoney({ prefix: 'R$ ', allowNegative: false, thousands: '.', decimal: ',',symbolStay: true,  affixesStay: true });
+            $('#renda').maskMoney({ prefix: 'R$ ', allowNegative: false, thousands: '.', decimal: ',',symbolStay: true,  affixesStay: true });
+
+
         });
-        
+
 
     });
 
@@ -139,6 +140,5 @@ $(document).ready(function () {
             }
         });
     });
-
 
 });

@@ -11,25 +11,25 @@ public class CreateInvestidorViewModel
     [Required(ErrorMessage = "Este Campo é Obrigatório")]
     [MaxLength(11, ErrorMessage = "Este Campo de Conter 11 Caracteres")]
     [MinLength(11, ErrorMessage = "Este Campo de Conter 11 Caracteres")]
-    public string? CPF { get; set; }
+    public string CPF { get; set; }
 
     [Required(ErrorMessage = "Este Campo é Obrigatório")]
     [StringLength(50)]
-    public string? Nome { get; set; }
+    public string Nome { get; set; }
 
     public DateTime DataNascimento { get; set; }
 
     [Range(1540, 1000000, ErrorMessage = "Renda deve ser maior que R$ 1.540,00")]
     [DisplayFormat(DataFormatString = "{0:C}")]
-    public decimal? Renda { get; set; }
+    public decimal Renda { get; set; }
 
     [Range(1540, 1000000, ErrorMessage = "Salário deve ser maior que R$ 1.540,00")]
     [DefaultValue(0)]
-    public decimal? AporteMensal { get; set; }
+    public decimal AporteMensal { get; set; }
 
     [Required(ErrorMessage = "E-Mail é obrigatório")]
     [EmailAddress(ErrorMessage = "Invalido endereço de E-Mail")]
-    public string? Email { get; set; }
+    public string Email { get; set; }
 
 }
 

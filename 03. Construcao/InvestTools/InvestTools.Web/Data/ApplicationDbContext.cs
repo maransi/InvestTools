@@ -9,7 +9,7 @@ public class ApplicationDbContext : IdentityDbContext
 {
 
     private readonly IConfiguration _config;
-    public DbSet<Investidor>? Investidores { get; set; }    // Linha inserida
+    public DbSet<Investidor> Investidores { get; set; }    // Linha inserida
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options,
                                 IConfiguration config)

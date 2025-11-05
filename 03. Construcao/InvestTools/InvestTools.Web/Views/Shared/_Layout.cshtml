@@ -26,6 +26,9 @@
     <!-- Custom styles for this template -->
     <link href="~/css/sb-admin-2.min.css" rel="stylesheet">
 
+    <!-- Bibliote de notificação -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/themes/alertify.min.css" />
+
     @await RenderSectionAsync("header", required: false)
 
 </head>
@@ -124,6 +127,9 @@
     <!-- Page level custom scripts -->
     <script src="~/js/demo/chart-area-demo.js"></script>
     <script src="~/js/demo/chart-pie-demo.js"></script>
+
+    <!-- Biblioteca de Notificação -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

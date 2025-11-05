@@ -1,11 +1,10 @@
 var table;
 
 const LoadDataTable = (tableId, pageLength, ajaxConfig, columnConfig) => {
-
     table = $('#' + tableId).DataTable({
         processing: true,
         destroy: false,
-        scrollY: "70%",
+        scrollY: "369px",
         select: true,
         searching: true,
         sAjaxDataProp: "data",
@@ -45,8 +44,7 @@ const LoadDataTable = (tableId, pageLength, ajaxConfig, columnConfig) => {
             "targets": "_all"
         }]
     });
-
-};
+}
 
 $('#btnExcel').on('click', function () {
     table.button('.buttons-excel').trigger();
@@ -64,12 +62,12 @@ $('#btnPdf').on('click', function () {
     table.button('.buttons-pdf').trigger();
 });
 
+// Funções adicionadas 
 
-
+// Remover qq caractere diferente de número
 function removeNonNumeric(str) {
     return str.replace(/\D/g, '');
 }
-
 
 // Validação do CPF
 function validaCPF(cpf) {
@@ -94,9 +92,7 @@ function validaCPF(cpf) {
     return true;
 }
 
-function cleanCurrency(prValor) {
-
-    let valor = prValor;
+function cleanCurrency(valor) {
     // Remove o símbolo "R$"
     valor = valor.replace("R$", "");
 
@@ -108,3 +104,10 @@ function cleanCurrency(prValor) {
 
     return valor;
 }
+
+// Configuração básica da Notify.js
+$.notify.defaults({
+    position: 'bottom right',
+    autoHide: true,
+    autoHideDelay: 8000
+});

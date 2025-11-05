@@ -1,5 +1,4 @@
 @{
-    ViewBag.Title = "Datatable ";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -16,14 +15,14 @@
         <div class="card-header py-3">
             <div class="row">
                 <div class="col-2">
-                    <h5 class="m-0 font-weight-bold">Investidores</h5>
+                    <h5 class="m-0 font-weight-bold">@ViewBag.Title</h5>
                 </div>
                 <div class="col-10" style="text-align:end!important">
-                    <button id="btnPrint" class="btn btn-secondary btn-sm">Imprimir</button>
-                    <button id="btnPdf" class="btn btn-secondary btn-sm">PDF</button>
-                    <button id="btnExcel" class="btn btn-secondary btn-sm">Excel</button>
-                    <button id="btnCsv" class="btn btn-secondary btn-sm">CSV</button>
-                    <button id="btnAdd" class="btn btn-primary btn-sm">Novo Investidor</button>
+                    <button id="btnPrint"     class="btn btn-secondary btn-sm">Imprimir</button>
+                    <button id="btnPdf"     class="btn btn-secondary btn-sm">PDF</button>
+                    <button id="btnExcel"   class="btn btn-secondary btn-sm">Excel</button>
+                    <button id="btnCsv"     class="btn btn-secondary btn-sm">CSV</button>
+                    <button id="btnAdd"     class="btn btn-primary btn-sm">Novo Investidor</button>
                 </div>
             </div>
         </div>
@@ -45,21 +44,22 @@
     </div>
 
 </div>
-
+<!-- /.container-fluid -->
 
 <div id="modalContainer"></div>
-
 
 @section Scripts {
     <!-- Page level plugins -->
     <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js"></script>
 
     <!-- Page level custom scripts -->
     <script src="~/js/demo/datatables-demo.js"></script>
     <script src="~/js/index.js"></script>
-    <script src="~/js/investidor.js"></script>
 
+    <script src="~/js/investidor.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>

@@ -16,6 +16,8 @@ public class InvestidorController : Controller
 
     public IActionResult List()
     {
+        ViewBag.Title = "Investidores";
+
         return View();
     }
 
@@ -23,4 +25,5 @@ public class InvestidorController : Controller
     {
         return PartialView("_InvestidorModal");
     }
+
 }

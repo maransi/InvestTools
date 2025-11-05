@@ -21,33 +21,33 @@ public class Investidor : AuditEntity
     [MaxLength(11, ErrorMessage = "Este Campo de Conter 11 Caracteres")]
     [MinLength(11, ErrorMessage = "Este Campo de Conter 11 Caracteres")]
     [Column("cpf", TypeName = "VARCHAR(11)")]
-    public string? CPF { get; set; }
+    public string CPF { get; set; }
 
     [Required(ErrorMessage = "Este Campo é Obrigatório")]
     [StringLength(50)]
     [Column("nome", TypeName = "VARCHAR(50)")]
-    public string? Nome { get; set; }
+    public string Nome { get; set; }
 
     [Column("dataNascimento", TypeName = "DATE")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")] // Para views Razor
     // [JsonConverter(typeof(JsonStringConverter))] // Para serialização JSON    
-    public DateTime? DataNascimento { get; set; }
+    public DateTime DataNascimento { get; set; }
 
     [Range(1540, 1000000, ErrorMessage = "Renda deve ser maior que R$ 1.540,00")]
     [DisplayFormat(DataFormatString = "{0:C}")]
     [Column("renda", TypeName = "DECIMAL(13,2)")]
     [DefaultValue(0)]
-    public decimal? Renda { get; set; }
+    public decimal Renda { get; set; }
 
     [Range(1540, 1000000, ErrorMessage = "Salário deve ser maior que R$ 1.540,00")]
     [DisplayFormat(DataFormatString = "{0:C}")]
     [Column("aporteMensal", TypeName = "DECIMAL(13,2)")]
     [DefaultValue(0)]
-    public decimal? AporteMensal { get; set; }
+    public decimal AporteMensal { get; set; }
 
     [Required(ErrorMessage = "E-Mail é obrigatório")]
     [EmailAddress(ErrorMessage = "Invalido endereço de E-Mail")]
     [Column("email", TypeName = "VARCHAR(100)")]
-    public string? Email { get; set; }
+    public string Email { get; set; }
 }
