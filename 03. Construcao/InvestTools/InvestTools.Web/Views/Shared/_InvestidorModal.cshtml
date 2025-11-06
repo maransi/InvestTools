@@ -7,7 +7,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="investidorForm">
+                <form id="investidorForm" novalidate>       
                     <input type="hidden" id="investidorId" name="investidorId">
 
                     <div class="row">
@@ -17,17 +17,30 @@
                                 <input type="text" class="form-control form-control-sm"
                                     aria-label=".form-control-sm example" placeholder="123.456.789-00" id="cpf"
                                     name="cpf" required>
+
+                                <div class="invalid-feedback">
+                                    Campo CPF é Obrigatório
+                                </div>
                             </div>
                         </div>
                         <div class="col-9">
                             <div class="form-group">
                                 <label for="nome">Nome</label>
+
+                                <!-- Inserido as classes remove-acento e maisculo-->
                                 <input type="text" 
-                                        class="form-control form-control-sm" 
+                                        class="form-control form-control-sm remove-acento maiusculo" 
                                         id="nome" 
                                         name="nome" 
                                         placeholder="Nome"
-                                        required>
+                                        required
+                                        minlength="5"  
+                                        maxlength="50"> 
+
+                                    <div class="invalid-feedback">
+                                        Campo Nome é Obrigatório e deve ter ao menos 5 caracteres
+                                    </div>
+
                             </div>
                         </div>
                     </div>
@@ -35,8 +48,15 @@
                         <div class="col-3">
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="email" class="form-control form-control-sm" id="email" name="email"
-                                    aria-describedby="emailHelp" placeholder="nome.sobrenome@email.com" required>
+
+                                <!-- Inserido as classes remove-acento e minusculo -->
+                                <input type="email" class="form-control form-control-sm remove-acento minusculo" id="email" name="email"
+                                    aria-describedby="emailHelp" placeholder="nome.sobrenome@email.com" required
+                                    email>              
+
+                                <div class="invalid-feedback">
+                                    Campo E-Mail Inválido
+                                </div>
                             </div>
                         </div>
                         <div class="col-3">
@@ -44,19 +64,35 @@
                                 <label for="dataNascimento">Data Nasc</label>
                                 <input type="date" class="form-control form-control-sm" id="dataNascimento"
                                     name="dataNascimento" required>
+
+                                <div class="invalid-feedback">
+                                    Campo Data Nasc é Obrigatório
+                                </div>
+
                             </div>
                         </div>
                         <div class="col-3">
                             <div class="form-group">
                                 <label for="renda">Renda Mensal</label>
-                                <input type="text" class="form-control form-control-sm" name="renda" id="renda" placeholder="R$ 0,00">
+                                <input type="text" class="form-control form-control-sm" name="renda" id="renda" placeholder="R$ 0,00"
+                                        required min="1540" max="1000000">           
+
+                                <div class="invalid-feedback">
+                                    Campo Renda Inválido. Renda deve ser entre R$ 1.540,00 e R$ 1.000.000,00
+                                </div>
                             </div>
                         </div>
                         <div class="col-3">
                             <div class="form-group">
                                 <label for="renda">Aporte Mensal</label>
                                 <input type="text" class="form-control form-control-sm" name="aporteMensal" placeholder="R$ 0,00"
-                                    id="aporteMensal">
+                                    id="aporteMensal" 
+                                    required min="1540" max="1000000">              
+
+                                <div class="invalid-feedback">
+                                    Campo Aporte Mensal Inválido. O Aporte deve ser entre R$ 1.540,00 e R$ 1.000.000,00
+                                </div>
+
                             </div>
                         </div>
 

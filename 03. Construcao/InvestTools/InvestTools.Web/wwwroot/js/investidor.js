@@ -42,9 +42,16 @@ $(document).ready(function () {
         ],
     );
 
+    /*        
     var placeHolderElement = $("#modalContainer");
 
     placeHolderElement.on('click', '[data-action="save"]', function (event) {
+        if (!validaCPF($('#cpf').val())) {
+            $.notify('CPF inválido. Verifique o número digitado.', 'error');                    // LInha inserida
+            $('#cpf').focus();
+
+            return;
+        }
         var url = '/investidorAPI/api/v1';
 
         var method = $('#investidorId').val().trim() === '' ? 'POST' : 'PUT';
@@ -77,7 +84,8 @@ $(document).ready(function () {
             }
         });
     });
-
+    
+    */        
 
     // Adiciona novo cliente pelo click do botão
     $('#btnAdd').click(function () {
@@ -96,21 +104,78 @@ $(document).ready(function () {
             $('#aporteMensal').maskMoney({ prefix: 'R$ ', allowNegative: false, thousands: '.', decimal: ',',symbolStay: true,  affixesStay: true });
             $('#renda').maskMoney({ prefix: 'R$ ', allowNegative: false, thousands: '.', decimal: ',',symbolStay: true,  affixesStay: true });
 
+            // Evento incluido
+            $('#aporteMensal').on('focus', function() {  
+                $(this).select();
+            });  
+
+            $('#renda').on('focus', function() {  
+                $(this).select();
+            });  
+
+            // Função incluida
+            // Função associada ao Bootstrap para fazer o efeito de validação dos campos
+            (function () {
+                'use strict';
+                var form = document.getElementById('investidorForm');
+                var button = document.getElementById('btnSave');
+
+                button.addEventListener('click', function () {
+                    if (!form.checkValidity()) {
+                        form.classList.add('was-validated');
+                    } else {
+                        // alert('Formulário validado com sucesso!');
+                        Save();
+                    }
+                });
+            })();
+
+// Evento Incluido
+document.querySelectorAll('.remove-acento').forEach(function (input) {
+    input.addEventListener('input', function (event) {
+        let texto = event.target.value;
+
+        // Substituir acentos e "ç"
+        texto = texto.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Remove acentos
+        texto = texto.replace(/ç/g, 'c').replace(/Ç/g, 'C'); // Substitui "ç" por "c"
+
+        // Forçar texto em maiúsculas
+        // texto = texto.toUpperCase();
+
+        event.target.value = texto;
+    });
+});
+
+// Evento incluido
+document.querySelectorAll(".maiusculo").forEach( function( input ) {
+    input.addEventListener('blur', function(){
+        input.value = input.value.toUpperCase();
+    });
+});
+
+// Evento incluido
+document.querySelectorAll(".minusculo").forEach( function( input ) {
+    input.addEventListener('blur', function(){
+        input.value = input.value.toLowerCase();
+    });
+});
+
+
+
 
         });
 
 
     });
 
-    // Save o cliente pelo click do botão
-    $('#btnSave').click(function () {
+    // Função Incluida
+    const Save = () => {
         if (!validaCPF($('#cpf').val())) {
-            alert('CPF inválido. Verifique o número digitado.');
+            $.notify('CPF inválido. Verifique o número digitado.', 'error');                    // LInha inserida
             $('#cpf').focus();
 
             return;
         }
-
         var url = '/investidorAPI/api/v1';
 
         var method = $('#investidorId').val().trim() === '' ? 'POST' : 'PUT';
@@ -121,8 +186,8 @@ $(document).ready(function () {
             nome: $('#nome').val(),
             dataNascimento: $('#dataNascimento').val(),
             email: $('#email').val(),
-            renda: cleanCurrency($('#salario').val()),
-            aporteMensal: cleanCurrency($('#salario').val())
+            renda: cleanCurrency($('#renda').val()),
+            aporteMensal: cleanCurrency($('#aporteMensal').val())
         };
 
         $.ajax({
@@ -131,14 +196,19 @@ $(document).ready(function () {
             data: JSON.stringify(sendInfo),
             contentType: "application/json; charset=utf-8",
             success: function () {
-                alert('Investidor incluido com sucesso!!!');
+                // alert('Investidor incluido com sucesso!!!');
+                $.notify('Investidor incluido com sucesso!!!', 'success');
                 $('#formModal').modal('hide');
                 $('#investidorTable').DataTable().ajax.reload();
             },
             error: function (request, status, error) {
-                alert(request.responseText);
+                // alert(request.responseText);
+                $.notify(request.responseText, 'error');
+
             }
         });
-    });
+    };
+
+
 
 });

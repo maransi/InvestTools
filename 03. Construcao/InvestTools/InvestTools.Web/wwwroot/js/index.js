@@ -111,3 +111,33 @@ $.notify.defaults({
     autoHide: true,
     autoHideDelay: 8000
 });
+
+// Evento Incluido
+document.querySelectorAll('.remove-acento').forEach(function (input) {
+    input.addEventListener('input', function (event) {
+        let texto = event.target.value;
+
+        // Substituir acentos e "ç"
+        texto = texto.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Remove acentos
+        texto = texto.replace(/ç/g, 'c').replace(/Ç/g, 'C'); // Substitui "ç" por "c"
+
+        // Forçar texto em maiúsculas
+        // texto = texto.toUpperCase();
+
+        event.target.value = texto;
+    });
+});
+
+// Evento incluido
+document.querySelectorAll(".maiusculo").forEach( function( input ) {
+    input.addEventListener('blur', function(){
+        input.value = input.value.toUpperCase();
+    });
+});
+
+// Evento incluido
+document.querySelectorAll(".minusculo").forEach( function( input ) {
+    input.addEventListener('blur', function(){
+        input.value = input.value.toLowerCase();
+    });
+});
