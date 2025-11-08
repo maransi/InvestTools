@@ -45,7 +45,8 @@ public class InvestidorRepository : IInvestidorRepository
     {
         var investidor = await _context.Investidores
                                 .AsNoTracking()
-                                .FirstOrDefaultAsync(i => i.CPF == model.CPF);
+                                .FirstOrDefaultAsync(i => model.Id > 0 ? i.Id == model.Id: i.CPF == model.CPF );
+                                
         if (investidor == null)
             throw new Exception("Investidor não encontrado");
 
@@ -82,11 +83,12 @@ public class InvestidorRepository : IInvestidorRepository
     public async Task<Investidor> UpdateAsync(CreateInvestidorViewModel item)
     {
         var investidor = await _context.Investidores
-                                    .FirstOrDefaultAsync(i => i.CPF == item.CPF);
+                                    .FirstOrDefaultAsync(i => i.Id == item.Id);
 
         if (investidor == null)
             throw new Exception("Investidor não encontrado");
 
+        investidor.CPF = item.CPF;
         investidor.Nome = item.Nome;
         investidor.DataNascimento = item.DataNascimento;
         investidor.Renda = item.Renda;

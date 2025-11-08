@@ -114,4 +114,26 @@ public class InvestidorAPIController : ControllerBase
         }
     }
 
+    [HttpGet("v1/{id:int}")]
+    public async Task<ActionResult<Investidor>> GetByIdAsync([FromRoute] int id)
+    {
+        try
+        {
+            var createInvestidorViewModel = new CreateInvestidorViewModel{ Id = id };
+
+            var investidor = await _investidorRepository.GetByIdAsync(createInvestidorViewModel);
+
+            return investidor == null ?
+                            NotFound(new { Id = 1, error = $"Não foi encontrado o investidor" }) :
+                            Ok(new ResultViewModel<Investidor>(investidor));
+
+
+        }
+        catch (System.Exception)
+        {
+            throw;
+        }
+    }
+
+
 }

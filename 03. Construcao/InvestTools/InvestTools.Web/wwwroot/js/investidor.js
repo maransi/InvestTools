@@ -33,8 +33,8 @@ $(document).ready(function () {
                 data: null,
                 width: "20%",
                 render: function (data, type, row) {
-                    return '<a href="#" data-id="' + row.codigo + '" class="editBtn"><img src="/img/Open-Button.png"  title="Abrir/Editar" alt="Editar"  width="24" height="24"></a>&nbsp&nbsp&nbsp' +
-                        '<a href="#" data-id="' + row.codigo + '" class="deleteBtn"><img src="/img/Delete-Button.png" title="Eliminar" alt="Excluir" width="24" height="24"></a>';
+                    return '<a href="#" data-id="' + row.id + '" class="editBtn"><img src="/img/Open-Button.png"  title="Abrir/Editar" alt="Editar"  width="24" height="24"></a>&nbsp&nbsp&nbsp' +
+                        '<a href="#" data-id="' + row.id + '" class="deleteBtn"><img src="/img/Delete-Button.png" title="Eliminar" alt="Excluir" width="24" height="24"></a>';
                     // '<button class="btn btn-outline-primary btn-sm editBtn" data-id="' + row.id + '">Edit</button>' +
                     // '<button class="btn btn-outline-danger btn-sm deleteBtn" data-id="' + row.id + '">Delete</button>' +                        
                 }
@@ -87,9 +87,7 @@ $(document).ready(function () {
     
     */        
 
-    // Adiciona novo cliente pelo click do botão
-    $('#btnAdd').click(function () {
-
+    $.fn.GetModalPartial = function() {
         $.get('/Investidor/GetModalPartial').done(function (data) {
             $('#modalContainer').html(data);
 
@@ -130,45 +128,85 @@ $(document).ready(function () {
                 });
             })();
 
-// Evento Incluido
-document.querySelectorAll('.remove-acento').forEach(function (input) {
-    input.addEventListener('input', function (event) {
-        let texto = event.target.value;
+            // Evento Incluido
+            document.querySelectorAll('.remove-acento').forEach(function (input) {
+                input.addEventListener('input', function (event) {
+                    let texto = event.target.value;
 
-        // Substituir acentos e "ç"
-        texto = texto.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Remove acentos
-        texto = texto.replace(/ç/g, 'c').replace(/Ç/g, 'C'); // Substitui "ç" por "c"
+                    // Substituir acentos e "ç"
+                    texto = texto.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Remove acentos
+                    texto = texto.replace(/ç/g, 'c').replace(/Ç/g, 'C'); // Substitui "ç" por "c"
 
-        // Forçar texto em maiúsculas
-        // texto = texto.toUpperCase();
+                    // Forçar texto em maiúsculas
+                    // texto = texto.toUpperCase();
 
-        event.target.value = texto;
+                    event.target.value = texto;
+                });
+            });
+
+            // Evento incluido
+            document.querySelectorAll(".maiusculo").forEach( function( input ) {
+                input.addEventListener('blur', function(){
+                    input.value = input.value.toUpperCase();
+                });
+            });
+
+            // Evento incluido
+            document.querySelectorAll(".minusculo").forEach( function( input ) {
+                input.addEventListener('blur', function(){
+                    input.value = input.value.toLowerCase();
+                });
+            });
+        }); 
+
+    };
+
+
+
+
+
+
+    // Adiciona novo investidor pelo click do botão
+    $('#btnAdd').click(function () {
+        $(document).GetModalPartial();
     });
-});
-
-// Evento incluido
-document.querySelectorAll(".maiusculo").forEach( function( input ) {
-    input.addEventListener('blur', function(){
-        input.value = input.value.toUpperCase();
-    });
-});
-
-// Evento incluido
-document.querySelectorAll(".minusculo").forEach( function( input ) {
-    input.addEventListener('blur', function(){
-        input.value = input.value.toLowerCase();
-    });
-});
 
 
+    $('#investidorTable').on('click', '.editBtn', function(event) {
+        event.preventDefault(); // Evita o redirecionamento automático
+        var investidorId = $(this).data('id');
 
+        $(document).GetModalPartial();
 
+        $.ajax({
+            url: '/investidorAPI/api/v1/' + investidorId, // Replace with your ASP.NET API endpoint
+            type: 'GET',
+            datatype: 'json',
+            success: function (data) {
+                $('#formModal').modal('show');
+                $('#formModalLabel').text('Alteração');
+                $('#btnSave').text('Salvar');
+                $('#investidorId').val(data.data.id);
+                $('#cpf').val(data.data.cpf).trigger('input');
+                $('#nome').val(data.data.nome);
+                $('#email').val(data.data.email);
+                $('#aporteMensal').val(Number(data.data.aporteMensal).toFixed(2).replace(/\./g,",")).maskMoney('mask');
+                $('#renda').val(Number(data.data.renda).toFixed(2).replace(/\./g,",")).maskMoney('mask');
+                $('#dataNascimento').val(data.data.dataNascimento.substring(0,10));
+
+            },
+            error: function (request, status, error) {
+                $.notify("Ocorreu o seguinte erro: \r\n\r\n" + request.responseText, 'error');
+            }
         });
 
 
     });
 
     // Função Incluida
+
+});
+
     const Save = () => {
         if (!validaCPF($('#cpf').val())) {
             $.notify('CPF inválido. Verifique o número digitado.', 'error');                    // LInha inserida
@@ -176,12 +214,14 @@ document.querySelectorAll(".minusculo").forEach( function( input ) {
 
             return;
         }
+
         var url = '/investidorAPI/api/v1';
+
 
         var method = $('#investidorId').val().trim() === '' ? 'POST' : 'PUT';
 
         var sendInfo = {
-            codigo: $('#investidorId').val().trim() === '' ? null : $('#investidorId').val(),
+            id: $('#investidorId').val().trim() === "" ? "0" : $('#investidorId').val(),
             cpf: removeNonNumeric($('#cpf').val()),
             nome: $('#nome').val(),
             dataNascimento: $('#dataNascimento').val(),
@@ -196,8 +236,12 @@ document.querySelectorAll(".minusculo").forEach( function( input ) {
             data: JSON.stringify(sendInfo),
             contentType: "application/json; charset=utf-8",
             success: function () {
-                // alert('Investidor incluido com sucesso!!!');
-                $.notify('Investidor incluido com sucesso!!!', 'success');
+                if (method === 'POST') {
+                    $.notify('Investidor incluido com sucesso!!!', 'success');
+                } else {
+                    $.notify('Investidor alterado com sucesso!!!', 'success');
+                }
+                
                 $('#formModal').modal('hide');
                 $('#investidorTable').DataTable().ajax.reload();
             },
@@ -208,7 +252,3 @@ document.querySelectorAll(".minusculo").forEach( function( input ) {
             }
         });
     };
-
-
-
-});
