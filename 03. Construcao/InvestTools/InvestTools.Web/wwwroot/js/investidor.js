@@ -42,50 +42,6 @@ $(document).ready(function () {
         ],
     );
 
-    /*        
-    var placeHolderElement = $("#modalContainer");
-
-    placeHolderElement.on('click', '[data-action="save"]', function (event) {
-        if (!validaCPF($('#cpf').val())) {
-            $.notify('CPF inválido. Verifique o número digitado.', 'error');                    // LInha inserida
-            $('#cpf').focus();
-
-            return;
-        }
-        var url = '/investidorAPI/api/v1';
-
-        var method = $('#investidorId').val().trim() === '' ? 'POST' : 'PUT';
-
-        var sendInfo = {
-            codigo: $('#investidorId').val().trim() === '' ? null : $('#investidorId').val(),
-            cpf: removeNonNumeric($('#cpf').val()),
-            nome: $('#nome').val(),
-            dataNascimento: $('#dataNascimento').val(),
-            email: $('#email').val(),
-            renda: cleanCurrency($('#renda').val()),
-            aporteMensal: cleanCurrency($('#aporteMensal').val())
-        };
-
-        $.ajax({
-            url: url,
-            type: method,
-            data: JSON.stringify(sendInfo),
-            contentType: "application/json; charset=utf-8",
-            success: function () {
-                // alert('Investidor incluido com sucesso!!!');
-                $.notify('Investidor incluido com sucesso!!!', 'success');
-                $('#formModal').modal('hide');
-                $('#investidorTable').DataTable().ajax.reload();
-            },
-            error: function (request, status, error) {
-                // alert(request.responseText);
-                $.notify(request.responseText, 'error');
-
-            }
-        });
-    });
-    
-    */        
 
     $.fn.GetModalPartial = function() {
         $.get('/Investidor/GetModalPartial').done(function (data) {
@@ -127,6 +83,22 @@ $(document).ready(function () {
                     }
                 });
             })();
+
+                        // Evento incluido
+            $('#cpf').on('blur', function () {
+                $.fn.validarCPF($(this));
+            });
+
+            // Evento incluido
+            $('#renda').on('blur', function () {
+                $.fn.validarCampoMonetario($(this));
+            });
+
+            // Evento incluido
+            $('#aporteMensal').on('blur', function () {
+                $.fn.validarCampoMonetario($(this));
+            });
+
 
             // Evento Incluido
             document.querySelectorAll('.remove-acento').forEach(function (input) {
@@ -208,12 +180,39 @@ $(document).ready(function () {
 });
 
     const Save = () => {
+/*        
         if (!validaCPF($('#cpf').val())) {
             $.notify('CPF inválido. Verifique o número digitado.', 'error');                    // LInha inserida
             $('#cpf').focus();
 
             return;
         }
+*/
+
+          // Trecho inserido
+        let cpfValido = $.fn.validarCPF($('#cpf'));
+
+        if (!cpfValido) {
+            $('#cpf').focus();
+            return; // impede submit
+        }
+
+        let houveInvalido = false;
+
+        $('.monetario').each(function () {
+            const valido = $.fn.validarCampoMonetario($(this));
+            if (!valido) houveInvalido = true;
+        });
+
+        if (houveInvalido) {
+            // opcional: focar no primeiro inválido
+            $('.monetario.is-invalid').first().focus();
+            return; // interrompe o fluxo (não salva)
+        }
+
+        // Aqui o formulário está válido — prossiga com o submit/ajax
+        // Ex.: $('#investidorForm').submit();
+        console.log('Formulário válido — pode salvar!');
 
         var url = '/investidorAPI/api/v1';
 
