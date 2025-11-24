@@ -133,11 +133,6 @@ $(document).ready(function () {
 
     };
 
-
-
-
-
-
     // Adiciona novo investidor pelo click do botão
     $('#btnAdd').click(function () {
         $(document).GetModalPartial();
@@ -175,79 +170,109 @@ $(document).ready(function () {
 
     });
 
-    // Função Incluida
+    // Função inserida
+    var modalConfirmacao = new bootstrap.Modal(document.getElementById('confirmacaoModal'));
 
+    // Delete Customer Button Click
+    $('#investidorTable tbody').on('click', '.deleteBtn', function () {
+        $('#id-delete').val($(this).data('id'));
+
+        $('#modalMensagem').text("Deseja realmente eliminar este investidor?");
+        
+        modalConfirmacao.show();
+    });
+
+    // Função inserida
+    $('#confirmarEnvio').click(function(){
+        if ( $('#id-delete').val() != '' ){
+            var codigo = $('#id-delete').val();
+
+            modalConfirmacao.hide();
+
+            var sendInfo = {
+                "Id": $('#id-delete').val()
+            };
+
+
+            $.ajax({
+                url: '/investidorAPI/api/v1', // AQUI ENVIAR O MODEL INVESTIDOR
+                type: 'DELETE',
+                data: JSON.stringify( { "Id": $('#id-delete').val() } ), // JSON.stringify(sendInfo),
+                contentType: "application/json; charset=utf-8",
+                success: function () {
+                    $('#investidorTable').DataTable().ajax.reload();
+                    $.notify("Eliminação realizada com sucesso!!!", 'success');
+                },
+                error: function(){
+                    $.notify("Ocorreu o seguinte erro: \r\n\r\n" + request.responseText, 'error');
+                }
+            });
+
+            $('#id-delete').val('');
+        }
+    });
 });
 
-    const Save = () => {
-/*        
-        if (!validaCPF($('#cpf').val())) {
-            $.notify('CPF inválido. Verifique o número digitado.', 'error');                    // LInha inserida
-            $('#cpf').focus();
+const Save = () => {
+        // Trecho inserido
+    let cpfValido = $.fn.validarCPF($('#cpf'));
 
-            return;
-        }
-*/
+    if (!cpfValido) {
+        $('#cpf').focus();
+        return; // impede submit
+    }
 
-          // Trecho inserido
-        let cpfValido = $.fn.validarCPF($('#cpf'));
+    let houveInvalido = false;
 
-        if (!cpfValido) {
-            $('#cpf').focus();
-            return; // impede submit
-        }
+    $('.monetario').each(function () {
+        const valido = $.fn.validarCampoMonetario($(this));
+        if (!valido) houveInvalido = true;
+    });
 
-        let houveInvalido = false;
+    if (houveInvalido) {
+        // opcional: focar no primeiro inválido
+        $('.monetario.is-invalid').first().focus();
+        return; // interrompe o fluxo (não salva)
+    }
 
-        $('.monetario').each(function () {
-            const valido = $.fn.validarCampoMonetario($(this));
-            if (!valido) houveInvalido = true;
-        });
+    // Aqui o formulário está válido — prossiga com o submit/ajax
+    // Ex.: $('#investidorForm').submit();
+    console.log('Formulário válido — pode salvar!');
 
-        if (houveInvalido) {
-            // opcional: focar no primeiro inválido
-            $('.monetario.is-invalid').first().focus();
-            return; // interrompe o fluxo (não salva)
-        }
-
-        // Aqui o formulário está válido — prossiga com o submit/ajax
-        // Ex.: $('#investidorForm').submit();
-        console.log('Formulário válido — pode salvar!');
-
-        var url = '/investidorAPI/api/v1';
+    var url = '/investidorAPI/api/v1';
 
 
-        var method = $('#investidorId').val().trim() === '' ? 'POST' : 'PUT';
+    var method = $('#investidorId').val().trim() === '' ? 'POST' : 'PUT';
 
-        var sendInfo = {
-            id: $('#investidorId').val().trim() === "" ? "0" : $('#investidorId').val(),
-            cpf: removeNonNumeric($('#cpf').val()),
-            nome: $('#nome').val(),
-            dataNascimento: $('#dataNascimento').val(),
-            email: $('#email').val(),
-            renda: cleanCurrency($('#renda').val()),
-            aporteMensal: cleanCurrency($('#aporteMensal').val())
-        };
-
-        $.ajax({
-            url: url,
-            type: method,
-            data: JSON.stringify(sendInfo),
-            contentType: "application/json; charset=utf-8",
-            success: function () {
-                if (method === 'POST') {
-                    $.notify('Investidor incluido com sucesso!!!', 'success');
-                } else {
-                    $.notify('Investidor alterado com sucesso!!!', 'success');
-                }
-                
-                $('#formModal').modal('hide');
-                $('#investidorTable').DataTable().ajax.reload();
-            },
-            error: function (request, status, error) {
-                // alert(request.responseText);
-                $.notify(request.responseText, 'error');
-
-            }
-        });
+    var sendInfo = {
+        id: $('#investidorId').val().trim() === "" ? "0" : $('#investidorId').val(),
+        cpf: removeNonNumeric($('#cpf').val()),
+        nome: $('#nome').val(),
+        dataNascimento: $('#dataNascimento').val(),
+        email: $('#email').val(),
+        renda: cleanCurrency($('#renda').val()),
+        aporteMensal: cleanCurrency($('#aporteMensal').val())
     };
+
+    $.ajax({
+        url: url,
+        type: method,
+        data: JSON.stringify(sendInfo),
+        contentType: "application/json; charset=utf-8",
+        success: function () {
+            if (method === 'POST') {
+                $.notify('Investidor incluido com sucesso!!!', 'success');
+            } else {
+                $.notify('Investidor alterado com sucesso!!!', 'success');
+            }
+            
+            $('#formModal').modal('hide');
+            $('#investidorTable').DataTable().ajax.reload();
+        },
+        error: function (request, status, error) {
+            // alert(request.responseText);
+            $.notify(request.responseText, 'error');
+
+        }
+    });
+};

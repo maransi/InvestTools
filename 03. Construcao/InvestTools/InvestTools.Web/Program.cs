@@ -64,7 +64,6 @@ builder.Services.Configure<IdentityOptions>(options =>
 
 });
 
-
 // Add services to the container.
 builder.Services.AddControllersWithViews()
                 .ConfigureApiBehaviorOptions(options =>
@@ -78,7 +77,20 @@ builder.Services.AddControllersWithViews()
                 //                                 options.JsonSerializerOptions.WriteIndented = true;
                 //                             });
 
+/*
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        b => b.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod());
+});
+*/
+
+
 var app = builder.Build();
+
+// app.UseCors("AllowAll");
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

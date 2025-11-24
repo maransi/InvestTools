@@ -16,9 +16,7 @@ public class InvestidorRepository : IInvestidorRepository
 
     public async Task<bool> DeleteAsync(CreateInvestidorViewModel model)
     {
-        var investidor = await _context.Investidores
-                            .AsNoTracking()
-                            .FirstOrDefaultAsync(x => x.CPF == model.CPF);
+        var investidor = await GetByIdAsync(model);
 
         _context.Investidores.Remove(investidor);
 
