@@ -1,0 +1,216 @@
+Proposta de Sistema - InvestTools
+---------------------------------
+
+1. Introdução
+
+    1.1. Visão Geral
+
+        Sempre que é feito uma compra, ou venda de ativos na B3 o registro é feito numa planilha com as 
+        informações da negociação: Ticker do ativo, evento (compra/venda), data da negociação, 
+        quantidade (unidades) negociada, valor unitário da negociação e agente custodiante (banco/corretora) responsável
+        pelo ativo. 
+
+        A partir destas informações é feito o cálculo do preço médio dos ativos. Cada ativo tem seu 
+        controle de compra/venda, total de quotas e preço médio separado.
+
+        Além das compras de ativos na B3, também é feito outro controle em cima das compras de ativos de renda fixa, como:
+        CDB, LCI/LCA, Debentures, CRI, CRA, Tesouro direto, etc. Esse controle diverge das compras dos ativos da B3, porque
+        cada compra é tratado de forma individualizada, não havendo controle de preço médio, nem venda desses ativos. 
+        Neste caso informamos os seguintes dados da compra: Tipo da aplicação (CDB, LCI, LCA, etc..), Banco Emissor do ativo, 
+        Taxa negociada (IPCA+, Juros Pré-fixado, ou Juros Pós-fixado), data da compra, vencimento da aplicação, banco/corretora 
+        custodiante e o saldo aportado.
+
+2. Contexto Proposto
+
+    Periodicamente são realizadas negociações de compra/venda dos ativos de renda fixa (CDB, LCI, LCA, Debentures, CRI, CRA, 
+    Tesouro Direto) e variável (ações, ETFs, Fundos imobiliário, etc.).
+
+    Sempre que ocorrer uma compra/venda de ativos de renda variável, é informado ao sistema os detalhes da negociação, como: código 
+    do ativo, data da compra, quantidade adquirida, preço unitário da compra e o agente custodiante do ativo. 
+    Com essas informações o sistema calcula o preço médio de cada ativo.
+
+    As compras de ativos de renda fixa são registradas no sistema com as seguintes informações: Tipo da aplicação 
+    (CDB, LCI, LCA, etc..), emissor (banco/financeira) do ativo, tipo da Taxa negociada (IPCA+, Juros Pré-fixado, ou Juros Pós-fixado), 
+    taxa contratada, agente custodiante, vencimento da aplicação e saldo aportado.
+
+
+    Para que possamos manter um controle amigável desses ativos, configuramos as carteiras de investimentos:
+
+        . Cada carteira é associada a um, ou vários agentes custodiante.  
+
+        . As carteiras internamente são subdivididas por grupos de investimentos. Os grupos da carteira são configurados de forma personalizada, 
+            conforme a escolha do usuário.
+
+            Por exemplo: 
+            
+                Carteira Corretora Toro é composta pelos grupos:
+
+                    . Reserva de Oportunidade
+
+                    . Fundos Imobiliário
+
+                    . Ações
+
+                    . Oportunidade
+
+        . Para cada grupo da carteira é dado um percentual de acumulo, dessa forma acompanhamos a evolução de acumulo de cada grupo,
+            se o total de ativos estão, ou não dentro do que foi configurado inicialmente.
+    
+        . A associação da composição dos ativos da carteira é feita dentro de cada grupo identificando da seguinte forma:
+        
+            . Renda variável: pelo código do ativo, carteira e grupo que ele será alocado. 
+
+            . Renda fixa: pelo tipo do ativo (CDB, LCI, LCA, Debentures, CRI, CRA, Tesouro Direto), carteira e grupo. 
+            
+                . Sempre que houver uma aquisição de um ativo de renda fixa; ao informarmos os dados da compra, o sistema solicita a carteira
+                    e o grupo que este ativo pertencerá.
+
+    Mensalmente, preferencialmente no último dia de cada mês, é feito a prestação de conta das carteiras. Para cada ativo configurado na carteira  
+    é fornecido manualmente o valor atualizado naquele dia. Assim, teremos um comparativo mês, a mês da posição de todos os ativos.
+
+3. Sistema proposto
+
+    3.1. Objetivos
+
+        . Compor o cadastro de ativos de renda variável e fixa 
+        
+        . Calcular o preço médio dos ativos de renda variável comprados na B3.
+
+        . Compor o cadastro de compra de ativos de renda fixa comprado 
+
+        . Configuração de carteiras de investimentos, subdividindo por grupos e em cada grupo a composição dos ativos de renda fixa e variável.
+
+        . Manutenção das carteiras de investimentos no mês, apresentando: a situação financeira de cada ativo na data do apontamento; os rendimentos obtidos
+            no mês com dividendos, JCP, juros renda fixa, etc.; e os aportes realizados em cada ativo da carteira.
+
+        . Calculo do percentual acumulado em cada grupo de acordo com a posição informada no mês.
+
+    3.2. Descrição do Sistema Proposto
+
+        3.2.1. Novo Contexto
+
+            Todas as vezes que o usuário se autenticar, com usuário e senha, o sistema associará as informações do investidor
+            (investimentos, carteiras, etc) com o usuário atual. Assim, todas as informações fornecidas abaixo
+            serão do usuário corrente.
+
+            Sempre que for realizado investimentos em renda fixa, ou variável, o usuário se conectará ao sistema
+            com o seu usuário e senha para informar os dados da compra, ou venda do ativo.
+
+            Ao realizar a autenticação, o sistema exibirá no seu "dashboard" os gráfico(s) da(s) carteira(s) com 
+            a composição de cada uma, dividindo percentualmente e monetariamente por grupos; ou seja, para cada 
+            carteira será apresentado dois gráfico dividido por grupo, um percentualmente e outro financeiramente.
+
+
+            Haverá no sistema um cadastro de investidores, nele configuramos as informações, como: Nome, endereço, 
+            usuário do sistema ( que servirá para associar o usuário do sistema com o investidor ), conta(s) de investimento
+
+            O gerenciamento da(s) carteira(s) de investimento começa pela configuração delas, informando:
+
+                . Nome
+
+                . Grupos e seus percentuais de composição financeira dos ativos
+
+                . Para cada grupo, a composição de ativos com a respectiva conta de investimento.
+
+            Mensalmente o investidor gerenciará a(s) sua(s) carteira(s). Ao acessarmos o módulo de gerenciamento
+            de carteiras, será solicitado o mês, ano e a carteira para busca; caso não encontre, será criada
+            uma nova posição zerada da carteira para o novo período; caso contrário, apresenta as informações encontradas.
+            Assim que os dados forem apresentado, serão feito os apontamentos dos valores de cada ativo
+            existente nela. A nova posição no período será sobre feita sobre todos os 
+            ativos vigentes de renda fixa/variável negociados naquela carteira com a posição zerada; ativos renda 
+            variável com a posição zerada (ações, ETFs, fundos imobiliário, etc.) não farão parte da carteira; ativos de renda
+            fixa vencidas também ficam fora da carteira.
+
+[Comparativo de Ativos de Renda Variável para Compra]
+
+
+        3.2.1. Funcionalidades
+
+            3.2.1.1. Controle de acesso dos usuário
+
+                O acesso dos usuários ao sistema será realizado através da autenticação com login e senha. Caso o usuário venha esquecer a senha haverá a 
+                possibilidade de resgatá-la acionando a opção "Esqueci a senha" na tela de login; ao fazer esse acesso, será enviado no seu email 
+                um link, que acionará uma página no sistema, que solicitará a nova senha e novamente a redigitação da senha; caso as duas senhas forem iguais, 
+                o sistema renovará a senha do usuário pela que foi digitada.
+
+                Após a autenticação feita com sucesso, o sistema localiza o investidor com a identificação do usuário logado, a partir desse momento
+                o sistema filtrará todas as informações referente ao investidor que está associado ao usuário logado. Caso não existe um investidor 
+                associado ao usuário logado, o sistema solicitará o investidor desejada para associar ao usuário logado.
+                
+                Somente usuários com super acessos poderão fazer a escolha do investidor após a autenticação, este tipo de usuário poderá fazer o acesso aleatório 
+                aos perfis dos investidores. Caso o usuário logado e autenticado com sucesso não possuir direitos de super usuário, o sistema não permitirá 
+                que ele seja autenticado, informará a ausência da associação do usuário com um investidor especifico e o redirecionará para a tela de login.
+
+                A partir da autenticação com sucesso e o usuário é feito a liberação dos acessos as funcionalidades internas do sistema, iniciando pelo 
+                dashboard.
+
+            3.2.1.2. Dashboard
+
+                A página de dashboard será a página home do sistema. Nela haverá um gráfico de crescimento para cada carteira do investidor nos últimos 12 meses, 
+                baseado nas posições apresentadas mensalmente.
+
+                Abaixo de cada gráfico de crescimento, será apresentado outro gráfico de pizza com a distribuição em percentual de cada grupo da última posição da
+                respectiva carteira. Ao acionar os grupos do gráfico, será exibido abaixo a relação de ativos que compoem o grupo, com: O tiker/identificação 
+                do ativo e o total financeiro acumulado conforme a última posição.
+
+            3.2.1.1. Investidores
+
+                O cadastro de investidores conterá as informações básicas do responsável pelas carteiras de investimento, como:
+
+                    CPF
+                    Nome
+                    Usuário associado ao investidor
+                    Totalização das carteiras
+                    Relação de contas de investimento
+                        Apelido da conta
+                        Banco
+                        Agência
+                        No. da conta
+
+            3.2.1.1. Investimentos em Renda Variável
+
+                As compras e vendas de ativos na B3, como: ações, fundos imobiliário, ETF, BDR, etc. serão registradas com
+                as seguintes informações:
+
+                    . Ticker do ativo;
+                    
+                    . Evento (compra/venda)
+                    
+                    . Data da negociação;
+
+                    . Quantidade (unidades) negociada;
+                    
+                    . Valor unitário da negociação;
+                    
+                    . Banco/corretora responsável pela custódio do ativo.
+
+                A partir dessas informações calcularemos o preço médio de cada ativo.
+
+            3.2.1.2. Investimentos em Renda Fixa
+
+                As compras de aplicações em renda fixa serão registradas com as seguintes informações:
+
+                    . Tipo da aplicação (CDB, LCI, LCA, Debenture, CRI, CRA, Tesouro Direto, etc.);
+
+                    . Entidade financeira emissora do ativo;
+
+                    . Taxa negociada:
+
+                        . IPCA+ (com a taxa fixa)
+                        
+                        . Juros Pré-fixado (Percentual/Taxa fixa)
+                        
+                        . Juros Pós-fixado (Percentual sobre o CDI)
+
+                        . Vencimento da aplicação.
+
+                    . Valor aplicado/aportado.
+
+            3.2.1.3. Gerenciamento das carteiras de investimentos.
+
+                3.2.1.3.1. Configuração das carteiras
+
+
+                3.2.1.3.1. Gerenciamento das carteiras
+
+            3.2.1.4. Comparativo de Ativos de Renda Variável para Compra
